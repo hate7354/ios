@@ -4,29 +4,28 @@
     "slug": "ios",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/lunchericon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/icon.png",
-      "resizeMode": "contain",
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#2D2D3D"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ios-ios"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-
-        "backgroundColor": "#2D2D3D"
-      }
+      "package": "com.jinwoong.ios"
     },
     "web": {
-      "favicon": "./assets/icon.png"
+      "favicon": "./assets/lunchericon.png"
     }
   }
 }

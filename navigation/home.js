@@ -1,20 +1,43 @@
 /** @format */
 import React from "react";
-import { Keyboard } from "react-native";
+import { Alert, Keyboard } from "react-native";
 import { Container, LoginDiv, LoginTouch, Id, Pw } from "../style/component";
 import { Button } from "../component/button";
 import { Logo } from "../component/logo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const HomeScreen = ({ navigation }) => {
   const [id, changeId] = React.useState("");
   const [pw, changePw] = React.useState("");
-  const hi = "";
-  const test = async () => {
+  let param = new Object();
+
+  const storeData = async (key, value) => {
     try {
-      const URL = "http://192.168.0.150:3000/api/get/demo";
-      const res = await fetch(URL);
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  param.userID = id;
+  param.userPW = pw;
+
+  const auth = async () => {
+    try {
+      const URL = "http://192.168.0.150:3000/api/auth";
+      const TYPE = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(param),
+      };
+      const res = await fetch(URL, TYPE);
       let json = await res.json();
-      return json;
+      if (json.success === "success") {
+        navigation.navigate("Details");
+        storeData("userID", param.userID);
+      } else {
+        Alert.alert("LoginFail");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -36,11 +59,11 @@ export const HomeScreen = ({ navigation }) => {
           <Button
             title="로그인"
             onPress={() => {
-              test();
+              auth();
             }}
             backgroundColor="#6286FF"
           />
-          <Button title="Go to Details" onPress={() => navigation.navigate("Details")} />
+          {/* <Button title="Go to Details" onPress={() => navigation.navigate("Details")} /> */}
         </LoginDiv>
       </LoginTouch>
     </Container>
